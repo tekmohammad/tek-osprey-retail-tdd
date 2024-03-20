@@ -1,5 +1,7 @@
 package tek.tdd.base;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +18,7 @@ import java.util.Properties;
 
 public class BaseSetup {
 
+    private static final Logger LOGGER = LogManager.getLogger(BaseSetup.class);
     private static WebDriver driver;
     private Properties properties;
 
@@ -25,6 +28,9 @@ public class BaseSetup {
             //File Path
             String filePath = System.getProperty("user.dir")
                     + "/src/test/resources/config/application-config.properties";
+
+            LOGGER.info("Configuration File Path " + filePath);
+
             File propertyFile = new File(filePath);
             FileInputStream fileInputStream = new FileInputStream(propertyFile);
             properties = new Properties();
@@ -34,11 +40,18 @@ public class BaseSetup {
         }
     }
 
+    private String getProperty(String key) {
+        LOGGER.debug("Retrieving Property for key " + key);
+       String property = this.properties.getProperty(key);
+       LOGGER.debug("Property Value " + property);
+       return property;
+    }
+
     public void openBrowser() {
 
-        String retailUrl = this.properties.getProperty("ui.url");
-        String browserType = this.properties.getProperty("ui.browser");
-        boolean isHeadless = Boolean.parseBoolean(this.properties.getProperty("ui.isHeadless"));
+        String retailUrl = getProperty("ui.url");
+        String browserType = getProperty("ui.browser");
+        boolean isHeadless = Boolean.parseBoolean(getProperty("ui.isHeadless"));
 
         //Cross Browsing Setup.
         switch (browserType) {
@@ -68,6 +81,7 @@ public class BaseSetup {
     }
 
     public void quitBrowser() {
+        LOGGER.debug("Closing Browser");
         if (driver != null)
             driver.quit();
     }

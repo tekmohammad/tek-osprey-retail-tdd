@@ -1,5 +1,7 @@
 package tek.tdd.utilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -11,6 +13,8 @@ import tek.tdd.base.BaseSetup;
 import java.time.Duration;
 
 public class SeleniumUtilities extends BaseSetup {
+
+    private static final Logger LOGGER = LogManager.getLogger(SeleniumUtilities.class);
 
     public WebDriverWait getWait() {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
@@ -27,22 +31,27 @@ public class SeleniumUtilities extends BaseSetup {
 
     //Click
     public void clickOnElement(WebElement element) {
+        LOGGER.info("Clicking on Element {}" , element);
         waitForClickable(element).click();
     }
 
     public void sendText(WebElement element, String textValue) {
+        LOGGER.info("Send Key to Element {} with Value {}" , element, textValue);
         waitForVisibility(element).sendKeys(textValue);
     }
 
     public boolean isElementDisplayed(WebElement element) {
+        LOGGER.info("Checking Element is Displayed {}" , element);
         return waitForVisibility(element).isDisplayed();
     }
 
     public boolean isElementEnabled(WebElement element) {
+        LOGGER.info("Checking Element is Enabled " + element);
         return waitForVisibility(element).isEnabled();
     }
 
     public String getElementText(WebElement element) {
+        LOGGER.info("Getting Element text " + element);
         return waitForVisibility(element).getText();
     }
 
