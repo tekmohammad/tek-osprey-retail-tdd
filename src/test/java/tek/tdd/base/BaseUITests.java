@@ -1,7 +1,12 @@
 package tek.tdd.base;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.service.ExtentTestManager;
 import com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.bidi.log.Log;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -25,8 +30,17 @@ public class BaseUITests extends SeleniumUtilities {
     }
 
     @AfterMethod
-    public void endTestMethod() {
-        //TODO ADD Screenshots
+    public void endTestMethod(ITestResult result) {
+        if(result.getStatus() == ITestResult.FAILURE) {
+            TakesScreenshot takesScreenshot = (TakesScreenshot) getDriver();
+            String screenshot = takesScreenshot.getScreenshotAs(OutputType.BASE64);
+
+            ExtentTestManager.getTest()
+                    .fail("Test Failed Taking Screen Shot" ,
+                            MediaEntityBuilder.createScreenCaptureFromBase64String(screenshot)
+                                    .build());
+        }
+
         super.quitBrowser();
     }
 

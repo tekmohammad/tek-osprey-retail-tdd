@@ -2,12 +2,16 @@
 <suite name="Osprey TDD Framework">
     <test name="Running with Class">
         <classes>
-            <class name="tek.tdd.test.smoke.SetupTests"/>
+            <class name="tek.tdd.test.regression.SecurityTest">
+                <methods>
+                    <include name="validateLoginWithInvalidCredentials"/>
+                </methods>
+            </class>
         </classes>
     </test>
-    <test name="Running With Package">
-        <packages>
-            <package name="tek.tdd.test.regression"/>
-        </packages>
-    </test>
+<!--    <test name="Running With Package">-->
+<!--        <packages>-->
+<!--            <package name="tek.tdd.test.regression"/>-->
+<!--        </packages>-->
+<!--    </test>-->
 </suite>
