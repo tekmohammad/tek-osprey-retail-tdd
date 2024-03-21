@@ -19,7 +19,7 @@ public class SecurityTest extends BaseUITests {
     }
 
     @Test(dataProvider = "validCredentials")
-    public void validLoginWithValidCredentials(String username, String password) {
+    public void validateLoginWithValidCredentials(String username, String password) {
         /*
         Navigate to sign in page and sing in with valid username and password.
         Validate user successfully signed in.
